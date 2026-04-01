@@ -1,8 +1,9 @@
+import os
 from flask import Flask, render_template
 from flask_wtf.csrf import CSRFProtect
 
 app = Flask(__name__)
-app.secret_key = 'supersecretkey'  # necesaria para CSRF
+app.secret_key = os.environ.get("FLASK_SECRET_KEY") or os.urandom(32)
 csrf = CSRFProtect(app)
 app.permanent_session_lifetime = 99999999
 
