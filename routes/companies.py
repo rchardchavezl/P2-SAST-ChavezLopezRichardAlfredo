@@ -102,11 +102,11 @@ def register_company():
     if request.method == 'POST':
         company_name = request.form['company_name']
         description = request.form['description']
-        owner = request.form.get('owner', session.get('username'))
-        conn = get_data_connection()
-        conn.execute("INSERT INTO companies (name, description, owner) VALUES (?, ?, ?)",(company_name, description, owner)
-)
-        
+        owner = session.get('username')
+        conn.execute(
+            "INSERT INTO companies (name, description, owner) VALUES (?, ?, ?)",
+            (company_name, description, owner)
+        )
         conn.commit()
         conn.close()
         flash("Company registered successfully.", "success")
