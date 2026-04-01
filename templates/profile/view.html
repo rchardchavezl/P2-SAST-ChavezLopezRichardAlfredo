@@ -15,9 +15,11 @@
             <div class="card-body text-center">
                 <i class="bi bi-person-circle" style="font-size: 4rem; color: #6c757d;"></i>
                 <h4 class="mt-2">{{ profile_user['username'] }}</h4>
+                {% if session['role'] == 'admin' or session['user_id'] == profile_user['id'] %}
                 <span class="badge bg-primary text-capitalize">{{ profile_user['role'] }}</span>
                 {% if profile_user['company_id'] %}
                 <p class="text-muted mt-2 mb-0">Company ID: {{ profile_user['company_id'] }}</p>
+                {% endif %}
                 {% endif %}
             </div>
         </div>
