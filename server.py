@@ -1,7 +1,9 @@
 from flask import Flask, render_template
+from flask_wtf.csrf import CSRFProtect
 
 app = Flask(__name__)
-app.secret_key = 'supersecretkey'
+app.secret_key = 'supersecretkey'  # necesaria para CSRF
+csrf = CSRFProtect(app)
 app.permanent_session_lifetime = 99999999
 
 app.config["SESSION_COOKIE_HTTPONLY"] = True
