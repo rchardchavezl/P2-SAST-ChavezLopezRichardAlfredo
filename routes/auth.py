@@ -1,4 +1,4 @@
-from db import get_users_connection, hash_password
+from db import get_users_connection, verify_password
 from flask import request, redirect, render_template, session, flash
 from server import app
 
@@ -15,7 +15,8 @@ def login():
         user = conn.execute("SELECT * FROM users WHERE username = ?", (username,)).fetchone()
         conn.close()
         
-        if user and user['password'] == hash_password(password):
+        if user and verify_password(password, user['password']):
+            
             session['user_id'] = user['id']
             session['username'] = user['username']
             session['role'] = user['role']
