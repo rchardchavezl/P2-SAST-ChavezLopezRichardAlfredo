@@ -7,6 +7,11 @@ from db import get_users_connection, get_data_connection
 def user_profile(user_id):
     if 'username' not in session:
         return redirect('/login')
+
+    # Solo el propio usuario o un admin pueden ver el perfil
+    if session.get('role') != 'admin' and session.get('user_id') != user_id:
+        return render_template('errors/403.html'), 403
+
     conn_u = get_users_connection()
     user = conn_u.execute("SELECT * FROM users WHERE id = ?", (user_id,)).fetchone()
     conn_u.close()
