@@ -6,7 +6,17 @@ from server import app
 def login():
     if 'username' in session:
         return redirect('/dashboard')
+<<<<<<< Updated upstream
     next_url = request.args.get('next', '/dashboard')
+=======
+
+    next_url = request.args.get('next', '/dashboard')  # nosemgrep: python.flask.security.open-redirect.open-redirect
+>>>>>>> Stashed changes
+    parsed = urlparse(next_url)
+
+    if parsed.netloc or parsed.scheme or not next_url.startswith('/'):
+        next_url = '/dashboard'
+        
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
