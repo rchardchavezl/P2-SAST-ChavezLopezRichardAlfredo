@@ -2,6 +2,10 @@ from db import get_users_connection, verify_password
 from flask import request, redirect, render_template, session, flash
 from server import app
 
+# Al inicio del archivo, junto a los imports
+_login_attempts: dict = {}  # {ip: count}
+MAX_ATTEMPTS = 5
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if 'username' in session:
@@ -16,7 +20,14 @@ def login():
 
     if parsed.netloc or parsed.scheme or not next_url.startswith('/'):
         next_url = '/dashboard'
-        
+
+    ip = request.remote_addr
+    attempts = _login_attempts.get(ip, 0)
+    if attempts >= MAX_ATTEMPTS:
+        flash("Too many failed login attempts. Try again later.", "danger")
+        return render_template('auth/login.html', next_url=next_url), 429
+
+
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -26,7 +37,7 @@ def login():
         conn.close()
         
         if user and verify_password(password, user['password']):
-            
+            _login_attempts.pop(ip, None)  # Resetear al login exitoso
             session['user_id'] = user['id']
             session['username'] = user['username']
             session['role'] = user['role']
@@ -34,6 +45,7 @@ def login():
             session.permanent = True
             return redirect(next_url)
         else:
+            _login_attempts[ip] = attempts + 1  # Incrementar contador
             flash("Invalid username or password", "danger")
             return render_template('auth/login.html', next_url=next_url)
     return render_template('auth/login.html', next_url=next_url)
