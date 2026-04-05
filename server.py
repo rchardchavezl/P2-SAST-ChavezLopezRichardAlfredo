@@ -18,9 +18,12 @@ def set_security_headers(response):
     response.headers["Content-Security-Policy"] = (
         "default-src 'self'; "
         "script-src 'self' https://cdn.jsdelivr.net; "
-        "style-src 'self' https://cdn.jsdelivr.net; "
-        "font-src 'self' https://cdn.jsdelivr.net;"
+        "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; "
+        "font-src 'self' https://cdn.jsdelivr.net; "
+        "connect-src 'self' https://cdn.jsdelivr.net;"
     )
+
+
     response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
     return response
 

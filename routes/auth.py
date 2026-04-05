@@ -14,16 +14,8 @@ DUMMY_HASH = "scrypt$00112233445566778899aabbccddeeff$ffeeddccbbaa99887766554433
 def login():
     if 'username' in session:
         return redirect('/dashboard')
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-=======
-
->>>>>>> 3e312aa (VULN-16 - Se mitigó timing attack en login (CWE-204) calculando siempre el hash de contraseña independientemente de si el usuario existe)
-    next_url = request.args.get('next', '/dashboard')
-=======
-
+    
     next_url = request.args.get('next', '/dashboard')  # nosemgrep: python.flask.security.open-redirect.open-redirect
->>>>>>> Stashed changes
     parsed = urlparse(next_url)
 
     if parsed.netloc or parsed.scheme or not next_url.startswith('/'):
@@ -35,7 +27,7 @@ def login():
     if attempts >= MAX_ATTEMPTS:
         flash("Too many failed login attempts. Try again later.", "danger")
         return render_template('auth/login.html', next_url=next_url), 429
-
+    
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
