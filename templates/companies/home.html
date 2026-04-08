@@ -51,6 +51,7 @@
                 <div>
                     {% if session['role'] == 'admin' %}
                         <a href="/companies/{{ company['id'] }}/edit" class="btn btn-warning btn-sm"><i class="bi bi-pencil"></i></a>
+                        <!-- nosemgrep: django-no-csrf-token -->
                         <form method="post" action="/admin/companies/delete" class="d-inline" onsubmit="return confirm('Delete this company?');">
                             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                             <input type="hidden" name="company" value="{{ company['id'] }}">

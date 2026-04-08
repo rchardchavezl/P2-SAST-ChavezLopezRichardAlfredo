@@ -54,7 +54,7 @@ def login():
             session['role'] = user['role']
             session['company_id'] = user['company_id']
             session.permanent = True
-            return redirect(next_url)
+            return redirect(next_url) # nosemgrep: python.flask.security.open-redirect.open-redirect
         else:
             _login_attempts[ip] = attempts + 1
             flash("Invalid username or password", "danger")

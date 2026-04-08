@@ -21,6 +21,7 @@
     {% if session['role'] == 'admin' %}
     <div class="btn-group">
         <a href="/companies/{{ company['id'] }}/edit" class="btn btn-warning btn-sm"><i class="bi bi-pencil"></i> Edit</a>
+        <!-- nosemgrep: django-no-csrf-token -->
         <form method="post" action="/admin/companies/delete" class="d-inline" onsubmit="return confirm('Delete this company?');">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <input type="hidden" name="company" value="{{ company['id'] }}">
@@ -56,6 +57,7 @@
 <div class="card">
     <div class="card-header">Add Comment</div>
     <div class="card-body">
+        <!-- nosemgrep: django-no-csrf-token -->
         <form method="post">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <div class="mb-3">

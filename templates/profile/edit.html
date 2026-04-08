@@ -12,6 +12,7 @@
 <h2><i class="bi bi-pencil-square"></i> Edit Profile</h2>
 <div class="card mt-3">
     <div class="card-body">
+        <!-- nosemgrep: django-no-csrf-token -->
         <form method="post">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <div class="mb-3">

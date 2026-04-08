@@ -10,6 +10,7 @@
             <small class="text-light">Company Management System</small>
         </div>
         <div class="card-body p-4">
+            <!-- nosemgrep: django-no-csrf-token -->
             <form method="post" action="/login?next={{ next_url }}">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <div class="mb-3">
